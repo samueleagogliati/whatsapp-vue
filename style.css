@@ -1,0 +1,166 @@
+
+/* BODY */
+body{
+  background-color: #D7DBD6;
+}
+
+/* GREEN BAR */
+.green{
+  background-color: #009688;
+  width: 100%;
+  height: 120px;
+}
+
+/* CONTAINER */
+
+.screen-app{
+  width: 80%;
+  height: 90vh;
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+}
+
+/* PERSONE */
+.persone{
+  width: 40%;
+  height: 100%;
+}
+
+/* BAR UTENTE */
+.bar-utente{
+  width: 100%;
+  height: 50px;
+  background-color: #EAEAEA;
+}
+
+/* BORDO LEFT BAR UTENTE */
+
+.bordo-left{
+  border-left: 1px solid lightgray;
+}
+
+/* AVATAR UTENTE */
+.avatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+}
+
+/* BLUE BAR */
+.blue-bar{
+  background-color: #8EDAFC;
+  width: 100%;
+  height: 60px;
+}
+
+.blue-bar .bell-icon{
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+
+/* SEARCH BAR */
+.search-bar{
+  background-color: white;
+  width: 100%;
+  height: 40px;
+}
+
+.search-bar input:focus{
+  border: none;
+  outline: none;
+}
+
+/********** UTENTI ***********/
+
+.chat-list{
+  overflow-y: scroll;
+  height: calc(100% - 150px);
+}
+
+.active{
+  background-color: rgba(211, 211, 211, 0.603);
+}
+
+.contact{
+  height: 60px;
+  border-bottom: 1px solid lightgray;
+  cursor: default;
+}
+
+.contact:hover{
+  background-color: rgba(211, 211, 211, 0.603);
+}
+
+
+.contact .ultimo-messaggio{
+  font-size: 12px;
+}
+
+
+/*********** CHATS **************/
+.chats{
+  width: 60%;
+  height: 100%;
+  background-image: url(whatsapp-background.png);
+}
+
+.messaggi{
+  max-height: calc(90vh - 110px);
+}
+
+
+
+.message-bar{
+  background-color: #F4EEEA;
+  width: 60%;
+  height: 50px;
+}
+
+.message-bar input{
+  width: 90%;
+  border: none;
+}
+
+.message-bar input:focus{
+  border: none;
+  outline: none;
+}
+
+/* MESSAGE UTENTE */
+
+.message{
+  clear: both;
+  padding: 8px;
+  padding-right: 100px;
+  max-width: 70%;
+}
+
+.message-user{
+  background-color: #D5F9BA;  
+  font-size: 14px;
+}
+
+.message-other{
+  background-color: #FFFFFF;
+  font-size: 14px;
+}
+
+.message-hour{
+ right: 8px;
+ bottom: 0;
+ font-size: 10px;
+}
+
+
+
+
+
+
+
+
+
+

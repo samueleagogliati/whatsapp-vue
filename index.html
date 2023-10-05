@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boolzapp</title>
+
+   <!-- VUE -->
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+   <!-- LUXON -->
+   <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.3/build/global/luxon.min.js"></script>
+
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+ 
+   <!-- CSS -->
+     <link rel="stylesheet" href="style.css">
+ 
+   <!-- FONT AWESOME -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+  
+  <main id="app">
+
+    <!-- BAR GREEN BACKGROUND -->
+    <div class="green position-relative "></div>
+
+    <!-- APP -->
+    <div class="screen-app position-absolute d-flex justify-content-between ">
+
+      <!-- UTENTI -->
+      <div class="persone bg-light">
+        <div class="bar-utente d-flex justify-content-between px-2">
+
+          <!-- PROFILO:AVATAR AND NAME -->
+          <div class="profilo d-flex align-items-center ">
+            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="avatar" alt="">
+            <p class="m-0 px-2 ">Esther Pinos</p>
+          </div>
+
+          <!-- MENU ICONS -->
+          <div class="menu-utente d-flex align-items-center">
+            <i class="fa-solid fa-circle-notch px-2 " style="color: #B1B1B1;">
+            <i class="fa-solid fa-message px-2 " style="color: #B1B1B1;"></i></i>
+            <i class="fa-solid fa-ellipsis-vertical px-1" style="color: #B1B1B1;"></i>
+            
+          </div>
+        </div>
+
+        <!-- BLUE BAR -->
+        <div class="blue-bar d-inline-flex align-items-center ps-2  ">
+          <div class="bell-icon d-flex align-items-center justify-content-center">
+            <i class="fa-solid fa-bell-slash " style="color: #8EDAFC;"></i>
+          </div>
+          <div class="banner-text ps-2 my-lh-small p-0 ">
+            <h6 class="m-0 ">Ricevi notifiche di nuovi messaggi</h6>
+            <span class="text-decoration-underline my-fs-xsmall m-0 ">Attiva notifiche desktop</span>
+          </div>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="search-bar d-flex align-items-center px-2 ">
+          <i class="fa-solid fa-magnifying-glass pe-2" style="color: #B1B1B1;"></i>
+          <input type="text" @keyup="searchChat"
+          v-model="search" placeholder="Cerca o inizia una nuova chat" class="border-0 w-100 ">
+          
+        </div>
+
+        <!-- UTENTI -->
+
+        <div class="chat-list">
+          <div 
+          class="contact" 
+          v-for="(contact, index) in contacts" 
+          :class="{'active' : index === activeContact}"
+          @click="clickChat(contact, index)"
+          >
+  
+          <div class="contact w-100 d-flex align-items-center position-relative " v-if="contact.visible">
+             <!-- Image profilo -->
+             <div class="d-flex">
+              <img class="avatar ms-2 " :src="contact.avatar" alt="">
+            </div>
+  
+            <!-- Info profilo -->
+            <div class="d-flex align-items-start flex-column">
+              <p class="ps-2 m-0">{{contact.name}}</p>
+              <p class="ps-2 m-0  ultimo-messaggio">{{contact.messages[contact.messages.length-1].message}}</p>
+            </div>
+
+            <p v-if="calcolaGiorno(contact.messages[contact.messages.length-1].date)!='oggi'" class="position-absolute" style="right: 10px; font-size: 12px;">{{calcolaGiorno(contact.messages[contact.messages.length-1].date)}}</p>
+
+            <p v-else class="position-absolute" style="right: 10px; font-size: 12px;">{{calcolaData(contact.messages[contact.messages.length-1].date, 'HH:mm')}}</p>
+          </div>
+         
+            
+  
+          </div>
+        </div>
+       
+      </div>
+
+      <!-- CHATS -->
+      <div class="chats">
+        <div class="bar-utente bordo-left px-2 d-flex align-items-center ">
+          <div class="avatar-bar"></div>
+
+          <div class="menu-chat px-2 w-100 ">
+
+              <!-- profilo della persona con chat attiva -->
+              <div v-if="chatSelezionata" class="opened-chat d-flex align-items-center justify-content-between w-100 h-100  ">
+                <div class="avatar-bar d-flex  ">
+                  <div class="profilo d-flex  align-items-center ">
+                    <img :src="imageSelezionata" class="avatar me-3 " alt="">
+
+                    <div class="d-flex flex-column  m-0 ">
+                      <p class="m-0 " style="font-size: 14px;">{{nomeSelezionato}}
+                      </p>
+                      <p class="text-muted m-0 " style="font-size: 12px;">Ultimo accesso {{ultimoAccesso}}</p>
+
+                    </div>
+                  </div>
+                </div>
+                
+                
+                <div class="icons-bar-chat">
+                  <i class="fa-solid fa-magnifying-glass pe-2 " style="color: #B1B1B1;">
+                  </i>
+                  <i class="fa-solid fa-paperclip px-2 " style="color: #B1B1B1;" ></i>
+                  <i class="fa-solid fa-ellipsis-vertical ps-2" style="color: #B1B1B1;">
+                  </i>
+                </div>
+              </div>
+
+           
+          </div>
+
+        </div>
+
+        <!-- MESSAGGI -->
+
+        <div class="messaggi p-3 overflow-y-auto">
+          <div class="box-messaggio"
+          v-for="(contact, index) in contacts">
+            <div :class="{
+              'message-user': message.status === 'sent',
+              'message-other': message.status === 'received',
+              'float-end': message.status === 'sent',
+              'float-start': message.status === 'received'
+            }" class=" message position-relative rounded-1 mt-2" v-if="index==activeContact" v-for="message in contact.messages">
+              {{message.message}}
+              <span v-if="calcolaGiorno(message.date)=='oggi'" class="position-absolute message-hour pb-1">{{calcolaData(message.date, 'HH:mm')}}</span>
+              <span v-else class="position-absolute message-hour pb-1">{{calcolaGiorno(message.date) + " "+calcolaData(message.date, 'HH:mm')}}</span>
+            </div>
+          </div>
+          
+        </div>
+       
+
+       <!-- INVIA UN MESSAGGIO BAR -->
+       
+        <div v-if="chatSelezionata" class="message-bar position-fixed bottom-0 py-2 px-3 d-flex justify-content-between align-items-center ">
+          <i class="fa-regular fa-face-smile" style="color: #A8B2B7 ;"></i>
+          <input @keyup.enter="addMessage" v-model="message" type="text" placeholder="Scrivi un messaggio" class="mx-4 rounded-1 p-1 ps-3 ">
+          <i class="fa-solid fa-microphone" style="color: #A8B2B7;"></i>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+
+
+  <script src="script.js"></script>
+</body>
+</html>
