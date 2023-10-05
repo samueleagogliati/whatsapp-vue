@@ -137,7 +137,7 @@ createApp({
             },
             {
                 name: 'Federico',
-                avatar: 'https://bootdey.com/img/Content/avatar/avatar8.png',
+                avatar: 'https://bootdey.com/img/Content/avatar/avatar2.png',
                 ultimoAccesso: "10/01/2020 15:50:00",
                 visible: true,
                 messages: [
@@ -183,7 +183,8 @@ createApp({
       ultimoAccesso: " ",
       imageSelezionata:" ",
       message:"",
-      search:""
+      search:"",
+      account: {}
 
     }
   },
@@ -194,6 +195,7 @@ createApp({
         this.chatSelezionata = true;
         this.nomeSelezionato= contact.name;
         this.imageSelezionata= contact.avatar;
+        this.account=contact;
 
         const dateTime = luxon.DateTime; // libreria luxon
         const now = dateTime.now();
@@ -227,8 +229,11 @@ createApp({
                 status: 'received'
             }; 
             this.contacts[this.activeContact].messages.push(object2);
-        }, 2000);
-      
+        }, 2000);     
+        
+        this.contacts.unshift(this.contacts[this.activeContact]);
+        this.contacts.splice(this.activeContact+1, 1);
+        this.activeContact=0;
   
     },
 
